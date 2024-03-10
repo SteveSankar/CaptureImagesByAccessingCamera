@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      .container {
+        width: 500px;
+        margin: 10px auto;
+      }
+
+      #camera {
+        width: 350px;
+        height: 350px;
+        border: 1px solid black;
+        margin-bottom: 20px;
+      }
+
+      #btn {
+        margin-bottom: 20px;
+      }
+      #ultag {
+        display: flex;
+        flex-wrap: nowrap;
+        border: 6px solid blue;
+        max-width: 500px;
+      }
+      li{
+        margin: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="camera"></div>
+      <button id="btn" onclick="capture()">Take picture</button>
+
+      <p>Result:</p>
+      <br />
+      <div id="results"></div>
+      <div>
+        <h1>All images</h1>
+        <button onclick="show()">show all</button>
+        <ul id="ultag"></ul>
+      </div>
+      <script>
+        var images = [];
+        Webcam.set({
+          width: 350,
+          height: 300,
+          image_format: "jpeg",
+          jpeg_quality: 90,
+        });
+
+        Webcam.attach("#camera");
+
+        function capture() {
+          Webcam.snap((data) => {
+            images.push(data);
+            document.getElementById("results").innerHTML =
+              '<img src="' + data + '"/>';
+          });
+        }
+        function show() {
+          const ultag = document.getElementById("ultag");
+          for (const image of images) {
+            const newli = document.createElement("li");
+            const newimgtag = document.createElement("img");
+            newimgtag.src = image;
+            newimgtag.width = 60;
+            newimgtag.height = 70;
+            newli.appendChild(newimgtag);
+            ultag.appendChild(newli);
+          }
+        }
+      </script>
+    </div>
+  </body>
+</html>
